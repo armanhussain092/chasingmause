@@ -1,6 +1,6 @@
 const chaserBox = document.getElementById("chaser-box");
 const targetBox = document.getElementById("target-box");
-let catSpeed = 12; // Cat speed (adjust as needed)
+let catSpeed = 20; // Cat speed (adjust as needed)
 let gameActive = false;
 let timer;
 let timeLeft = 300; // 5 minutes in seconds
@@ -25,7 +25,7 @@ function endGame() {
     console.log("Game ended");
     gameActive = false;
     clearInterval(timer); // Clear the timer
-    alert("Game over! Time's up. You didn't catch the rat in time.");
+    alert("Game over! Time's up. You didn't catch the mause in time.");
     resetGame();
 }
 
@@ -71,7 +71,7 @@ function checkCollision() {
 function winGame() {
     gameActive = false;
     clearInterval(timer); // Clear the timer
-    alert("Congratulations! You caught the rat and won the game!");
+    alert("Congratulations! You caught the mause and won the game!");
     resetGame();
 }
 
@@ -84,7 +84,7 @@ function moveTarget() {
 
     setTimeout(() => {
         moveTarget(); // Move the target again after a delay
-    }, 5000); // 5 seconds (adjust as needed)
+    }, 3000); // 5 seconds (adjust as needed)
 }
 
 function addEventListeners() {
