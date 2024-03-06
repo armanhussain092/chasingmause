@@ -1,4 +1,3 @@
-
 const chaserBox = document.getElementById("chaser-box");
 const targetBox = document.getElementById("target-box");
 let catSpeed = 12; // Cat speed (adjust as needed)
@@ -97,8 +96,8 @@ function addEventListeners() {
     resetButton.addEventListener("click", resetGame);
 
     // Add touch events for movement
-    document.addEventListener("touchstart", handleTouchStart, false);
-    document.addEventListener("touchmove", handleTouchMove, false);
+    document.addEventListener("touchstart", handleTouchStart, { passive: false });
+    document.addEventListener("touchmove", handleTouchMove, { passive: false });
 }
 
 function handleTouchStart(event) {
