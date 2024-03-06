@@ -1,0 +1,37 @@
+body {
+  margin: 0;
+  overflow: hidden;
+}
+
+#container {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+}
+
+#chaser-box,
+#target-box {
+  position: absolute;
+}
+
+#controls {
+  position: fixed;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  justify-content: space-around;
+  width: 80%;
+}
+
+.control-button {
+  font-size: 14px;
+  padding: 8px 16px;
+}
+
+#chaser-box img,
+#target-box img {
+  border-radius: 50%;
+  border: 2px solid #fff;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+}
