@@ -1,11 +1,11 @@
 const chaserBox = document.getElementById("chaser-box");
 const targetBox = document.getElementById("target-box");
 let catSpeed = 12; // Cat speed (adjust as needed)
-let ratSpeed = 8; // Rat speed (adjust as needed)
 let gameActive = false;
 let timer;
 
 function startGame() {
+    console.log("Game started");
     if (!gameActive) {
         gameActive = true;
         resetGame();
@@ -14,12 +14,14 @@ function startGame() {
 }
 
 function resetGame() {
+    console.log("Game reset");
     chaserBox.style.left = '0px';
     chaserBox.style.top = '0px';
     moveTarget();
 }
 
 function endGame() {
+    console.log("Game ended");
     gameActive = false;
     clearTimeout(timer); // Clear the timer
     alert("Game over! Time's up. You didn't catch the rat in time.");
@@ -28,6 +30,7 @@ function endGame() {
 
 function move(direction, speed) {
     if (gameActive) {
+        console.log(`Moving ${direction}`);
         const step = speed;
         const currentLeft = parseInt(chaserBox.style.left) || 0;
         const currentTop = parseInt(chaserBox.style.top) || 0;
@@ -84,6 +87,7 @@ function moveTarget() {
 }
 
 function addEventListeners() {
+    console.log("Event listeners added");
     const startButton = document.getElementById("start-button");
     const resetButton = document.getElementById("reset-button");
 
@@ -93,35 +97,40 @@ function addEventListeners() {
     // Add touch events for movement
     document.addEventListener("touchstart", handleTouchStart, false);
     document.addEventListener("touchmove", handleTouchMove, false);
+}
 
-    function handleTouchStart(event) {
-        event.preventDefault();
-        const touch = event.touches[0];
-        startX = touch.clientX;
-        startY = touch.clientY;
+function handleTouchStart(event) {
+    event.preventDefault();
+    const touch = event.touches[0];
+    startX = touch.clientX;
+    startY = touch.clientY;
+}
+
+function handleTouchMove(event) {
+    event.preventDefault();
+    const touch = event.touches[0];
+    const deltaX = touch.clientX - startX;
+    const deltaY = touch.clientY - startY;
+
+    // Determine the primary direction of the swipe
+    if (Math.abs(deltaX) > Math.abs(deltaY)) {
+        // Horizontal swipe
+        if (deltaX > 0) {
+            move("right", catSpeed);
+        } else {
+            move("left", catSpeed);
+        }
+    } else {
+        // Vertical swipe
+        if (deltaY > 0) {
+            move("down", catSpeed);
+        } else {
+            move("up", catSpeed);
+        }
     }
 
-    function handleTouchMove(event) {
-        event.preventDefault();
-        const touch = event.touches[0];
-        const deltaX = touch.clientX - startX;
-        const deltaY = touch.clientY - startY;
+    startX = touch.clientX;
+    startY = touch.clientY;
+}
 
-        // Determine the primary direction of the swipe
-        if (Math.abs(deltaX) > Math.abs(deltaY)) {
-            // Horizontal swipe
-            if (deltaX > 0) {
-                move("right", catSpeed);
-            } else {
-                move("left", catSpeed);
-            }
-        } else {
-            // Vertical swipe
-            if (deltaY > 0) {
-                move("down", catSpeed);
-            } else {
-                move("up", catSpeed);
-            }
-        }
-
-        startX = touch
+document.addEventListener("DOMContentLoaded", addEventListeners);
