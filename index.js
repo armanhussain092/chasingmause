@@ -20,6 +20,7 @@ function resetGame() {
 
 function endGame() {
     gameActive = false;
+    clearTimeout(timer); // Clear the timer
     alert("Game over! Time's up. You didn't catch the rat in time.");
     resetGame();
 }
@@ -27,18 +28,21 @@ function endGame() {
 function move(direction) {
     if (gameActive) {
         const step = speed;
+        const currentLeft = parseInt(chaserBox.style.left) || 0;
+        const currentTop = parseInt(chaserBox.style.top) || 0;
+
         switch (direction) {
             case "left":
-                chaserBox.style.left = `${parseInt(chaserBox.style.left || 0) - step}px`;
+                chaserBox.style.left = `${currentLeft - step}px`;
                 break;
             case "up":
-                chaserBox.style.top = `${parseInt(chaserBox.style.top || 0) - step}px`;
+                chaserBox.style.top = `${currentTop - step}px`;
                 break;
             case "down":
-                chaserBox.style.top = `${parseInt(chaserBox.style.top || 0) + step}px`;
+                chaserBox.style.top = `${currentTop + step}px`;
                 break;
             case "right":
-                chaserBox.style.left = `${parseInt(chaserBox.style.left || 0) + step}px`;
+                chaserBox.style.left = `${currentLeft + step}px`;
                 break;
         }
         checkCollision();
