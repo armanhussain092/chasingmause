@@ -84,7 +84,7 @@ function moveTarget() {
 
     setTimeout(() => {
         moveTarget(); // Move the target again after a delay
-    }, 3000); // 5 seconds (adjust as needed)
+    }, 5000); // 5 seconds (adjust as needed)
 }
 
 function addEventListeners() {
