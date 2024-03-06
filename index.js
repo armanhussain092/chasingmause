@@ -1,6 +1,7 @@
 const chaserBox = document.getElementById("chaser-box");
 const targetBox = document.getElementById("target-box");
-let speed = 10; // Adjust the speed value as needed
+let catSpeed = 12; // Cat speed (adjust as needed)
+let ratSpeed = 8; // Rat speed (adjust as needed)
 let gameActive = false;
 let timer;
 
@@ -25,7 +26,7 @@ function endGame() {
     resetGame();
 }
 
-function move(direction) {
+function move(direction, speed) {
     if (gameActive) {
         const step = speed;
         const currentLeft = parseInt(chaserBox.style.left) || 0;
@@ -76,24 +77,51 @@ function moveTarget() {
 
     targetBox.style.left = `${newX}px`;
     targetBox.style.top = `${newY}px`;
+
+    setTimeout(() => {
+        moveTarget(); // Move the target again after a delay
+    }, 5000); // 5 seconds (adjust as needed)
 }
 
 function addEventListeners() {
-    const directions = ["left", "up", "down", "right"];
     const startButton = document.getElementById("start-button");
+    const resetButton = document.getElementById("reset-button");
 
     startButton.addEventListener("click", startGame);
+    resetButton.addEventListener("click", resetGame);
 
-    for (const direction of directions) {
-        const button = document.getElementById(`${direction}-button`);
+    // Add touch events for movement
+    document.addEventListener("touchstart", handleTouchStart, false);
+    document.addEventListener("touchmove", handleTouchMove, false);
 
-        button.addEventListener("click", () => move(direction));
-        button.addEventListener("touchstart", (event) => {
-            event.preventDefault(); // Prevents the button from being "sticky" on touch
-            move(direction);
-        });
+    function handleTouchStart(event) {
+        event.preventDefault();
+        const touch = event.touches[0];
+        startX = touch.clientX;
+        startY = touch.clientY;
     }
-}
 
-// Add event listeners after the DOM has loaded
-document.addEventListener("DOMContentLoaded", addEventListeners);
+    function handleTouchMove(event) {
+        event.preventDefault();
+        const touch = event.touches[0];
+        const deltaX = touch.clientX - startX;
+        const deltaY = touch.clientY - startY;
+
+        // Determine the primary direction of the swipe
+        if (Math.abs(deltaX) > Math.abs(deltaY)) {
+            // Horizontal swipe
+            if (deltaX > 0) {
+                move("right", catSpeed);
+            } else {
+                move("left", catSpeed);
+            }
+        } else {
+            // Vertical swipe
+            if (deltaY > 0) {
+                move("down", catSpeed);
+            } else {
+                move("up", catSpeed);
+            }
+        }
+
+        startX = touch
