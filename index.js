@@ -1,8 +1,10 @@
+
 const chaserBox = document.getElementById("chaser-box");
 const targetBox = document.getElementById("target-box");
 let catSpeed = 12; // Cat speed (adjust as needed)
 let gameActive = false;
 let timer;
+let startX, startY;
 
 function startGame() {
     console.log("Game started");
