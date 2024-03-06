@@ -1,23 +1,48 @@
 const chaserBox = document.getElementById("chaser-box");
 const targetBox = document.getElementById("target-box");
+let speed = 10; // Adjust the speed value as needed
+let gameActive = false;
+let timer;
+
+function startGame() {
+    if (!gameActive) {
+        gameActive = true;
+        resetGame();
+        timer = setTimeout(endGame, 300000); // 5 minutes (300,000 milliseconds)
+    }
+}
+
+function resetGame() {
+    chaserBox.style.left = '0px';
+    chaserBox.style.top = '0px';
+    moveTarget();
+}
+
+function endGame() {
+    gameActive = false;
+    alert("Game over! Time's up. You didn't catch the rat in time.");
+    resetGame();
+}
 
 function move(direction) {
-    const step = 10;
-    switch (direction) {
-        case "left":
-            chaserBox.style.left = `${parseInt(chaserBox.style.left || 0) - step}px`;
-            break;
-        case "up":
-            chaserBox.style.top = `${parseInt(chaserBox.style.top || 0) - step}px`;
-            break;
-        case "down":
-            chaserBox.style.top = `${parseInt(chaserBox.style.top || 0) + step}px`;
-            break;
-        case "right":
-            chaserBox.style.left = `${parseInt(chaserBox.style.left || 0) + step}px`;
-            break;
+    if (gameActive) {
+        const step = speed;
+        switch (direction) {
+            case "left":
+                chaserBox.style.left = `${parseInt(chaserBox.style.left || 0) - step}px`;
+                break;
+            case "up":
+                chaserBox.style.top = `${parseInt(chaserBox.style.top || 0) - step}px`;
+                break;
+            case "down":
+                chaserBox.style.top = `${parseInt(chaserBox.style.top || 0) + step}px`;
+                break;
+            case "right":
+                chaserBox.style.left = `${parseInt(chaserBox.style.left || 0) + step}px`;
+                break;
+        }
+        checkCollision();
     }
-    checkCollision();
 }
 
 function checkCollision() {
@@ -30,8 +55,15 @@ function checkCollision() {
         chaserRect.top < targetRect.bottom &&
         chaserRect.bottom > targetRect.top
     ) {
-        moveTarget();
+        winGame();
     }
+}
+
+function winGame() {
+    gameActive = false;
+    clearTimeout(timer); // Clear the timer
+    alert("Congratulations! You caught the rat and won the game!");
+    resetGame();
 }
 
 function moveTarget() {
@@ -44,10 +76,13 @@ function moveTarget() {
 
 function addEventListeners() {
     const directions = ["left", "up", "down", "right"];
-    
+    const startButton = document.getElementById("start-button");
+
+    startButton.addEventListener("click", startGame);
+
     for (const direction of directions) {
         const button = document.getElementById(`${direction}-button`);
-        
+
         button.addEventListener("click", () => move(direction));
         button.addEventListener("touchstart", (event) => {
             event.preventDefault(); // Prevents the button from being "sticky" on touch
@@ -56,9 +91,5 @@ function addEventListeners() {
     }
 }
 
-// Automatically move the target box every 3 seconds (adjust the interval as needed)
-setInterval(moveTarget, 3000);
-
 // Add event listeners after the DOM has loaded
 document.addEventListener("DOMContentLoaded", addEventListeners);
-
