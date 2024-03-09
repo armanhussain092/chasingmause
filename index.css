@@ -7,6 +7,9 @@ body {
     position: relative;
     width: 100vw;
     height: 100vh;
+    background-image: url('images/nature.jpg'); /* Set background image */
+    background-size: cover;
+    background-position: center;
 }
 
 #chaser-box,
