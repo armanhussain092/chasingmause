@@ -10,6 +10,7 @@ function startGame() {
     if (!gameActive) {
         gameActive = true;
         resetGame();
+        updateTimer(); // Add this line to update the timer immediately
         timer = setInterval(updateTimer, 1000);
     }
 }
@@ -102,6 +103,21 @@ function addEventListeners() {
     rightButton.addEventListener("click", () => move("right"));
     startButton.addEventListener("click", startGame);
     resetButton.addEventListener("click", resetGame);
+}
+
+function updateTimer() {
+    if (timeLeft > 0) {
+        const minutes = Math.floor(timeLeft / 60);
+        const seconds = timeLeft % 60;
+        document.getElementById("timer").innerText = `Time Left: ${padZero(minutes)}:${padZero(seconds)}`;
+        timeLeft--;
+    } else {
+        endGame();
+    }
+}
+
+function padZero(number) {
+    return number < 10 ? `0${number}` : number;
 }
 
 document.addEventListener("DOMContentLoaded", addEventListeners);
