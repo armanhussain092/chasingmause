@@ -25,7 +25,7 @@ function endGame() {
     console.log("Game ended");
     gameActive = false;
     clearInterval(timer); // Clear the timer
-    alert("Game over! Time's up. You didn't catch the mause in time.");
+    alert("Game over! Time's up. You didn't catch the mouse in time.");
     resetGame();
 }
 
@@ -71,7 +71,7 @@ function checkCollision() {
 function winGame() {
     gameActive = false;
     clearInterval(timer); // Clear the timer
-    alert("Congratulations! You caught the mause and won the game!");
+    alert("Congratulations! You caught the mouse and won the game!");
     resetGame();
 }
 
@@ -102,21 +102,6 @@ function addEventListeners() {
     rightButton.addEventListener("click", () => move("right"));
     startButton.addEventListener("click", startGame);
     resetButton.addEventListener("click", resetGame);
-}
-
-function updateTimer() {
-    if (timeLeft > 0) {
-        const minutes = Math.floor(timeLeft / 60);
-        const seconds = timeLeft % 60;
-        document.getElementById("timer").innerText = `Time Left: ${padZero(minutes)}:${padZero(seconds)}`;
-        timeLeft--;
-    } else {
-        endGame();
-    }
-}
-
-function padZero(number) {
-    return number < 10 ? `0${number}` : number;
 }
 
 document.addEventListener("DOMContentLoaded", addEventListeners);
